@@ -8,7 +8,7 @@ import * as dat from 'dat.gui'
  */
 //  Debug
 const gui = new dat.GUI()
-gui.width = 400
+gui.width = 300
 
 //  Canvas
 const canvas = document.querySelector('canvas.webgl')
