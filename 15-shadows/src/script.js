@@ -47,15 +47,18 @@ directionalLight.shadow.camera.bottom = - 2
 directionalLight.shadow.camera.left = - 2
 directionalLight.shadow.radius = 10
 
-const directionalLightHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
-directionalLightHelper.visible = false
+const directionalLightShadowHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+directionalLightShadowHelper.visible = false
+scene.add(directionalLightShadowHelper)
+
+const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 0.2)
 scene.add(directionalLightHelper)
 
 gui.add(directionalLight, 'intensity').min(0).max(1).step(0.001).name('Directional Light Intensity')
 gui.add(directionalLight.position, 'x').min(- 5).max(5).step(0.001).name('Directional Light Position X')
 gui.add(directionalLight.position, 'y').min(- 5).max(5).step(0.001).name('Directional Light Position Y')
 gui.add(directionalLight.position, 'z').min(- 5).max(5).step(0.001).name('Directional Light Position Z')
-gui.add(directionalLightHelper, 'visible').name('directionalLightHelper')
+gui.add(directionalLightShadowHelper, 'visible').name('directionalLightShadowHelper')
 
 scene.add(directionalLight)
 
@@ -87,8 +90,6 @@ gui.add(sportLightCameraHelper, 'visible').name('sportLightCameraHelper')
 // Point light
 const pointLight = new THREE.PointLight(0xffffff, 0.3)
 
-pointLight.castShadow = true
-
 pointLight.position.set(- 1, 1, 0)
 scene.add(pointLight)
 
@@ -96,6 +97,8 @@ const pointLightCameraHelper = new THREE.CameraHelper(pointLight.shadow.camera)
 pointLightCameraHelper.visible = false
 gui.add(pointLightCameraHelper, 'visible').name('pointLightCameraHelper')
 scene.add(pointLightCameraHelper)
+
+pointLight.castShadow = true
 
 pointLight.shadow.mapSize.width = 1024 * 2
 pointLight.shadow.mapSize.height = 1024 * 2
@@ -191,7 +194,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
-renderer.shadowMap.enabled = false
+renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
 /**
